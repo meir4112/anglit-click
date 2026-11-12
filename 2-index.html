@@ -1,0 +1,897 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>אנגלית בקליק - לומדים אנגלית בכיף</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#faf5ec;--ink:#232838;--ink-soft:#5a6172;--card:#fff;--coral:#ff6b4a;--teal:#0ea493;--amber:#f7b32b;--indigo:#5b6cff;--rose:#ef5da8;--good:#1faa6d;--bad:#e2452f;--shadow:0 10px 30px rgba(35,40,56,.09);--radius:22px}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'Rubik',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden}
+body::before{content:"";position:fixed;inset:0;z-index:-1;pointer-events:none;background:radial-gradient(600px 400px at 90% -5%,rgba(247,179,43,.16),transparent 60%),radial-gradient(700px 500px at -10% 30%,rgba(14,164,147,.13),transparent 60%),radial-gradient(600px 500px at 80% 95%,rgba(91,108,255,.10),transparent 60%)}
+.en{direction:ltr;unicode-bidi:isolate}
+.topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:rgba(250,245,236,.85);backdrop-filter:blur(12px);border-bottom:1px solid rgba(35,40,56,.07)}
+.logo{display:flex;align-items:center;gap:10px;font-weight:800;font-size:1.25rem;cursor:pointer}
+.logo-badge{width:40px;height:40px;border-radius:14px;display:grid;place-items:center;background:linear-gradient(135deg,var(--coral),var(--amber));color:#fff;font-size:1.2rem;box-shadow:0 4px 12px rgba(255,107,74,.4)}
+.stats{display:flex;gap:10px}
+.stat-pill{display:flex;align-items:center;gap:7px;background:var(--card);border-radius:999px;padding:7px 15px;font-weight:700;font-size:.95rem;box-shadow:0 3px 10px rgba(35,40,56,.07)}
+.stat-pill .ico{font-size:1.05rem}
+.wrap{max-width:1060px;margin:0 auto;padding:0 20px 60px}
+.hero{padding:40px 0 22px;text-align:center}
+.hero h1{font-size:clamp(1.9rem,5vw,3rem);font-weight:900;line-height:1.15;letter-spacing:-.5px}
+.hero h1 .hl{background:linear-gradient(90deg,var(--coral),var(--rose),var(--indigo));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--ink-soft);font-size:1.05rem;margin-top:12px}
+.hero-badges{display:flex;gap:10px;justify-content:center;margin-top:16px;flex-wrap:wrap}
+.hero-badge{background:#fff;border-radius:999px;padding:6px 14px;font-size:.85rem;font-weight:600;color:var(--ink-soft);box-shadow:0 3px 10px rgba(35,40,56,.06)}
+.level-tabs{display:flex;justify-content:center;gap:10px;margin:24px 0 8px}
+.level-tab{border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:1rem;padding:10px 26px;border-radius:999px;background:#fff;color:var(--ink-soft);box-shadow:0 3px 10px rgba(35,40,56,.06);transition:all .2s}
+.level-tab.active{background:var(--ink);color:#fff;transform:translateY(-1px)}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:18px;margin-top:24px}
+.card{background:var(--card);border-radius:var(--radius);padding:22px;cursor:pointer;box-shadow:var(--shadow);transition:transform .18s,box-shadow .18s;border-top:5px solid var(--c,var(--coral));display:flex;flex-direction:column;gap:9px}
+.card:hover{transform:translateY(-5px);box-shadow:0 18px 40px rgba(35,40,56,.14)}
+.card .c-ico{width:50px;height:50px;border-radius:16px;display:grid;place-items:center;font-size:1.5rem;background:color-mix(in srgb,var(--c,var(--coral)) 14%,#fff)}
+.card h3{font-size:1.15rem;font-weight:800}
+.card p{color:var(--ink-soft);font-size:.9rem;line-height:1.5;flex:1}
+.card .c-meta{display:flex;justify-content:space-between;font-size:.8rem;color:var(--ink-soft);font-weight:600}
+#exerciseView{display:none}
+.ex-top{display:flex;align-items:center;justify-content:space-between;padding:26px 0 6px;gap:12px;flex-wrap:wrap}
+.btn-back{border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:.95rem;background:#fff;border-radius:999px;padding:9px 18px;box-shadow:0 3px 10px rgba(35,40,56,.08);color:var(--ink)}
+.btn-back:hover{background:var(--ink);color:#fff}
+.ex-progress-wrap{flex:1;min-width:140px;height:10px;background:#fff;border-radius:99px;overflow:hidden;box-shadow:inset 0 1px 4px rgba(35,40,56,.08)}
+.ex-progress-wrap>div{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--teal),var(--indigo));transition:width .35s}
+.ex-count{font-weight:700;color:var(--ink-soft);font-size:.9rem;white-space:nowrap}
+.stage{background:var(--card);border-radius:26px;box-shadow:var(--shadow);padding:34px 30px;margin-top:20px;min-height:340px;display:flex;flex-direction:column;align-items:center;gap:20px;text-align:center}
+.stage h2{font-size:1.3rem;font-weight:800}
+.stage .sub{color:var(--ink-soft);font-size:.95rem;margin-top:-12px}
+.btn{border:none;cursor:pointer;font-family:inherit;font-weight:800;font-size:1.02rem;padding:13px 34px;border-radius:999px;transition:transform .12s,box-shadow .12s,background .2s;background:var(--ink);color:#fff;box-shadow:0 6px 16px rgba(35,40,56,.22)}
+.btn:hover{transform:translateY(-2px)}
+.btn:active{transform:translateY(0)}
+.btn.primary{background:linear-gradient(135deg,var(--coral),#ff8f5e)}
+.btn.teal{background:linear-gradient(135deg,var(--teal),#2cc4b2)}
+.btn.ghost{background:#fff;color:var(--ink);box-shadow:0 3px 10px rgba(35,40,56,.1)}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.play-btn{width:92px;height:92px;border-radius:50%;border:none;cursor:pointer;background:linear-gradient(135deg,var(--indigo),#8b94ff);color:#fff;font-size:2.1rem;box-shadow:0 10px 26px rgba(91,108,255,.4);transition:transform .15s;display:grid;place-items:center}
+.play-btn:hover{transform:scale(1.06)}
+.play-btn.speaking{animation:pulse 1s infinite}
+@keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.09)}}
+.mini-btn{border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:.85rem;background:#f2f4f8;border-radius:999px;padding:8px 16px;color:var(--ink-soft)}
+.mini-btn:hover{background:var(--ink);color:#fff}
+.answer-input{font-family:inherit;font-size:1.15rem;font-weight:600;text-align:left;direction:ltr;width:min(560px,100%);padding:15px 18px;border-radius:16px;border:2.5px solid #e3e6ee;outline:none;background:#fbfbfc;transition:border .2s}
+.answer-input:focus{border-color:var(--indigo);background:#fff}
+.diff-line{font-size:1.15rem;font-weight:700;line-height:2;background:#fbfbfc;border-radius:16px;padding:12px 18px;width:min(560px,100%)}
+.diff-word{display:inline-block;padding:2px 8px;border-radius:8px;margin:2px}
+.diff-ok{background:rgba(31,170,109,.15);color:var(--good)}
+.diff-miss{background:rgba(226,69,47,.13);color:var(--bad);text-decoration:line-through}
+.diff-exp{background:rgba(31,170,109,.15);color:var(--good)}
+.options{display:grid;grid-template-columns:1fr 1fr;gap:12px;width:min(620px,100%)}
+@media(max-width:560px){.options{grid-template-columns:1fr}}
+.opt{border:2.5px solid #e8eaf1;background:#fff;cursor:pointer;font-family:inherit;font-weight:700;font-size:1.05rem;padding:15px 18px;border-radius:16px;transition:all .15s}
+.opt:hover{border-color:var(--indigo);transform:translateY(-2px)}
+.opt.correct{border-color:var(--good);background:rgba(31,170,109,.12);color:var(--good)}
+.opt.wrong{border-color:var(--bad);background:rgba(226,69,47,.1);color:var(--bad)}
+.opt:disabled{cursor:default}
+.blank-sentence{font-size:1.3rem;font-weight:700;line-height:2}
+.blank-gap{display:inline-block;min-width:110px;border-bottom:3px dashed var(--coral);color:var(--coral);font-weight:800;text-align:center;padding:0 8px}
+.match-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:min(680px,100%);direction:ltr}
+.match-col{display:flex;flex-direction:column;gap:10px}
+.match-item{border:2.5px solid #e8eaf1;background:#fff;cursor:pointer;font-family:inherit;font-weight:700;font-size:1.02rem;padding:13px 14px;border-radius:14px;transition:all .15s}
+.match-item:hover{transform:translateY(-2px)}
+.match-item.sel{border-color:var(--amber);background:rgba(247,179,43,.15)}
+.match-item.done{border-color:var(--good);background:rgba(31,170,109,.12);color:var(--good);cursor:default;opacity:.75}
+.match-item.shake{animation:shake .35s}
+@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.chips{display:flex;flex-wrap:wrap;gap:10px;justify-content:center;direction:ltr;min-height:52px;width:100%;padding:10px;border-radius:16px;background:#f6f7fa}
+.chips.answer-zone{background:rgba(91,108,255,.06);border:2.5px dashed #d3d7ff}
+.chip{border:none;cursor:pointer;font-family:inherit;font-weight:700;font-size:1.05rem;padding:10px 18px;border-radius:999px;background:#fff;color:var(--ink);box-shadow:0 3px 8px rgba(35,40,56,.1);transition:transform .12s}
+.chip:hover{transform:translateY(-2px)}
+.chip.used{opacity:.25;pointer-events:none}
+.flashcard{width:min(420px,100%);height:200px;border-radius:22px;cursor:pointer;display:grid;place-items:center;font-size:2rem;font-weight:800;background:linear-gradient(135deg,#fff,#f4f6ff);border:2.5px solid #e8eaf1;box-shadow:var(--shadow);transition:transform .3s;user-select:none}
+.flashcard.flipped{background:linear-gradient(135deg,#fff8ec,#ffeeda);border-color:var(--amber)}
+.feedback{min-height:34px;font-weight:800;font-size:1.1rem}
+.feedback.good{color:var(--good)}
+.feedback.bad{color:var(--bad)}
+.pop{animation:pop .35s}
+@keyframes pop{0%{transform:scale(.9)}60%{transform:scale(1.04)}100%{transform:scale(1)}}
+.result-emoji{font-size:3.4rem}
+.result-pts{font-size:1.05rem;font-weight:700;color:var(--ink-soft)}
+.result-pts b{color:var(--coral);font-size:1.3rem}
+.confetti{position:fixed;top:-12px;width:10px;height:16px;z-index:99;border-radius:3px;pointer-events:none;animation:fall linear forwards}
+@keyframes fall{to{transform:translateY(105vh) rotate(720deg);opacity:.6}}
+.footer-note{text-align:center;color:var(--ink-soft);font-size:.85rem;margin-top:36px;line-height:1.7}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="logo" onclick="goHome()">
+    <div class="logo-badge">🎧</div>
+    <span>אנגלית <span style="color:var(--coral)">בקליק</span></span>
+  </div>
+  <div class="stats">
+    <div class="stat-pill"><span class="ico">⭐</span><span id="statPoints">0</span></div>
+    <div class="stat-pill"><span class="ico">🔥</span><span id="statStreak">0</span> ימים</div>
+  </div>
+</header>
+<main class="wrap">
+  <section id="homeView">
+    <div class="hero">
+      <h1>לומדים אנגלית <span class="hl">בכיף</span>,<br>והשאלות לא נגמרות</h1>
+      <p>תשעה סוגי תרגילים, ומערכת שמייצרת שאלות ומשפטים חדשים בכל סבב. ההתקדמות נשמרת אצלך במחשב.</p>
+      <div class="hero-badges">
+        <div class="hero-badge">♾️ שאלות חדשות בכל סבב</div>
+        <div class="hero-badge">🎧 האזנה מלאה בלי קיטועים</div>
+        <div class="hero-badge">🧠 חזרה על מילים שטעית בהן</div>
+        <div class="hero-badge">📈 מעקב התקדמות</div>
+      </div>
+    </div>
+    <div class="level-tabs">
+      <button class="level-tab active" id="tabBeg" onclick="setLevel('beg')">🌱 מתחילים</button>
+      <button class="level-tab" id="tabAdv" onclick="setLevel('adv')">🚀 מתקדמים</button>
+    </div>
+    <div class="cards" id="cardsGrid"></div>
+    <div class="footer-note">נבנה באהבה 💛 הכול נשמר במחשב הזה בלבד - בלי חשבון, בלי תשלום, בלי פרסומות.<br>טיפ: בתרגילי ההאזנה אפשר ללחוץ על הרמקול כמה פעמים שרוצים, וגם על 🐢 לשמיעה איטית.</div>
+  </section>
+  <section id="exerciseView">
+    <div class="ex-top">
+      <button class="btn-back" onclick="goHome()">→ חזרה לתפריט</button>
+      <div class="ex-progress-wrap"><div id="exBar" style="width:0%"></div></div>
+      <div class="ex-count" id="exCount"></div>
+    </div>
+    <div class="stage" id="stage"></div>
+  </section>
+</main>
+<script>
+/* ================= WORD BANK ================= */
+const CATS={fam:"משפחה",food:"אוכל ושתייה",home:"בבית",time:"זמן וימים",body:"חלקי הגוף",cloth:"בגדים",anim:"חיות",nat:"טבע",school:"לימודים",work:"עבודה",travel:"נסיעות",feel:"רגשות",verb:"פעלים",adj:"תארים",misc:"מילים שימושיות"};
+// [en, he, level(1 beg / 2 adv), cat]
+const WORDS=[
+["mother","אמא",1,"fam"],["father","אבא",1,"fam"],["brother","אח",1,"fam"],["sister","אחות",1,"fam"],["baby","תינוק",1,"fam"],["family","משפחה",1,"fam"],["son","בן",1,"fam"],["daughter","בת",1,"fam"],["grandfather","סבא",1,"fam"],["grandmother","סבתא",1,"fam"],["uncle","דוד",1,"fam"],["aunt","דודה",1,"fam"],["cousin","בן דוד",2,"fam"],["husband","בעל",2,"fam"],["wife","אישה",2,"fam"],["parents","הורים",1,"fam"],["child","ילד",1,"fam"],["children","ילדים",1,"fam"],
+["bread","לחם",1,"food"],["water","מים",1,"food"],["milk","חלב",1,"food"],["apple","תפוח",1,"food"],["cheese","גבינה",1,"food"],["egg","ביצה",1,"food"],["rice","אורז",1,"food"],["meat","בשר",1,"food"],["soup","מרק",1,"food"],["sugar","סוכר",1,"food"],["salt","מלח",1,"food"],["coffee","קפה",1,"food"],["tea","תה",1,"food"],["juice","מיץ",1,"food"],["cake","עוגה",1,"food"],["butter","חמאה",2,"food"],["chicken","עוף",1,"food"],["potato","תפוח אדמה",1,"food"],["tomato","עגבנייה",1,"food"],["cucumber","מלפפון",1,"food"],["orange","תפוז",1,"food"],["banana","בננה",1,"food"],["breakfast","ארוחת בוקר",1,"food"],["lunch","ארוחת צהריים",1,"food"],["dinner","ארוחת ערב",1,"food"],["recipe","מתכון",2,"food"],["delicious","טעים מאוד",2,"food"],["fresh","טרי",2,"food"],["frozen","קפוא",2,"food"],["bitter","מר",2,"food"],["sweet","מתוק",2,"food"],["sour","חמוץ",2,"food"],["spicy","חריף",2,"food"],
+["door","דלת",1,"home"],["window","חלון",1,"home"],["table","שולחן",1,"home"],["bed","מיטה",1,"home"],["chair","כיסא",1,"home"],["lamp","מנורה",1,"home"],["kitchen","מטבח",1,"home"],["bathroom","חדר אמבטיה",1,"home"],["sofa","ספה",1,"home"],["floor","רצפה",1,"home"],["wall","קיר",1,"home"],["roof","גג",1,"home"],["key","מפתח",1,"home"],["mirror","מראה",1,"home"],["shelf","מדף",1,"home"],["closet","ארון",1,"home"],["carpet","שטיח",1,"home"],["pillow","כרית",1,"home"],["blanket","שמיכה",1,"home"],["towel","מגבת",2,"home"],["furniture","רהיטים",2,"home"],["ceiling","תקרה",2,"home"],["stairs","מדרגות",2,"home"],["basement","מרתף",2,"home"],["garden","גינה",1,"home"],
+["morning","בוקר",1,"time"],["evening","ערב",1,"time"],["night","לילה",1,"time"],["today","היום",1,"time"],["tomorrow","מחר",1,"time"],["yesterday","אתמול",1,"time"],["week","שבוע",1,"time"],["month","חודש",1,"time"],["year","שנה",1,"time"],["hour","שעה",1,"time"],["minute","דקה",1,"time"],["day","יום",1,"time"],["weekend","סוף שבוע",1,"time"],["holiday","חג",1,"time"],["birthday","יום הולדת",1,"time"],["century","מאה",2,"time"],["decade","עשור",2,"time"],["moment","רגע",2,"time"],["future","עתיד",2,"time"],["season","עונה",2,"time"],
+["head","ראש",1,"body"],["hand","יד",1,"body"],["leg","רגל",1,"body"],["eye","עין",1,"body"],["ear","אוזן",1,"body"],["mouth","פה",1,"body"],["nose","אף",1,"body"],["hair","שיער",1,"body"],["tooth","שן",1,"body"],["heart","לב",1,"body"],["finger","אצבע",1,"body"],["foot","כף רגל",1,"body"],["arm","זרוע",2,"body"],["back","גב",1,"body"],["shoulder","כתף",2,"body"],["knee","ברך",2,"body"],["stomach","בטן",2,"body"],["brain","מוח",2,"body"],["skin","עור",2,"body"],["blood","דם",2,"body"],
+["shirt","חולצה",1,"cloth"],["pants","מכנסיים",1,"cloth"],["shoes","נעליים",1,"cloth"],["dress","שמלה",1,"cloth"],["coat","מעיל",1,"cloth"],["hat","כובע",1,"cloth"],["socks","גרביים",1,"cloth"],["jacket","ז'קט",1,"cloth"],["skirt","חצאית",1,"cloth"],["belt","חגורה",2,"cloth"],["gloves","כפפות",2,"cloth"],["scarf","צעיף",2,"cloth"],["pocket","כיס",2,"cloth"],["button","כפתור",2,"cloth"],
+["dog","כלב",1,"anim"],["cat","חתול",1,"anim"],["bird","ציפור",1,"anim"],["fish","דג",1,"anim"],["horse","סוס",1,"anim"],["cow","פרה",1,"anim"],["sheep","כבשה",1,"anim"],["lion","אריה",1,"anim"],["tiger","נמר",2,"anim"],["monkey","קוף",1,"anim"],["rabbit","ארנב",1,"anim"],["mouse","עכבר",1,"anim"],["elephant","פיל",1,"anim"],["snake","נחש",1,"anim"],["duck","ברווז",1,"anim"],["bear","דוב",1,"anim"],["wolf","זאב",2,"anim"],["fox","שועל",2,"anim"],["deer","אייל",2,"anim"],["eagle","נשר",2,"anim"],["shark","כריש",2,"anim"],["whale","לוויתן",2,"anim"],
+["sun","שמש",1,"nat"],["moon","ירח",1,"nat"],["star","כוכב",1,"nat"],["sky","שמיים",1,"nat"],["rain","גשם",1,"nat"],["snow","שלג",1,"nat"],["wind","רוח",1,"nat"],["tree","עץ",1,"nat"],["flower","פרח",1,"nat"],["grass","דשא",1,"nat"],["sea","ים",1,"nat"],["river","נהר",1,"nat"],["mountain","הר",1,"nat"],["cloud","ענן",1,"nat"],["storm","סופה",2,"nat"],["lightning","ברק",2,"nat"],["thunder","רעם",2,"nat"],["desert","מדבר",2,"nat"],["forest","יער",2,"nat"],["island","אי",2,"nat"],
+["book","ספר",1,"school"],["pen","עט",1,"school"],["pencil","עיפרון",1,"school"],["teacher","מורה",1,"school"],["student","תלמיד",1,"school"],["class","כיתה",1,"school"],["lesson","שיעור",1,"school"],["homework","שיעורי בית",1,"school"],["test","מבחן",1,"school"],["question","שאלה",1,"school"],["answer","תשובה",1,"school"],["word","מילה",1,"school"],["sentence","משפט",1,"school"],["page","עמוד",1,"school"],["notebook","מחברת",1,"school"],["bag","תיק",1,"school"],["dictionary","מילון",2,"school"],["exam","בחינה",2,"school"],["grade","ציון",2,"school"],["knowledge","ידע",2,"school"],
+["work","עבודה",1,"work"],["job","תפקיד",1,"work"],["office","משרד",1,"work"],["boss","בוס",1,"work"],["meeting","פגישה",1,"work"],["money","כסף",1,"work"],["shop","חנות",1,"work"],["market","שוק",1,"work"],["doctor","רופא",1,"work"],["driver","נהג",1,"work"],["farmer","חקלאי",2,"work"],["soldier","חייל",1,"work"],["salary","משכורת",2,"work"],["employee","עובד",2,"work"],["manager","מנהל",2,"work"],["customer","לקוח",2,"work"],["business","עסק",2,"work"],
+["car","מכונית",1,"travel"],["bus","אוטובוס",1,"travel"],["train","רכבת",1,"travel"],["plane","מטוס",1,"travel"],["ship","ספינה",1,"travel"],["road","כביש",1,"travel"],["street","רחוב",1,"travel"],["city","עיר",1,"travel"],["country","מדינה",1,"travel"],["map","מפה",1,"travel"],["ticket","כרטיס",1,"travel"],["station","תחנה",1,"travel"],["airport","שדה תעופה",1,"travel"],["hotel","מלון",1,"travel"],["trip","טיול",1,"travel"],["journey","מסע",2,"travel"],["luggage","מזוודות",2,"travel"],["border","גבול",2,"travel"],["passport","דרכון",2,"travel"],
+["happy","שמח",1,"feel"],["sad","עצוב",1,"feel"],["angry","כועס",1,"feel"],["tired","עייף",1,"feel"],["hungry","רעב",1,"feel"],["thirsty","צמא",1,"feel"],["afraid","מפחד",1,"feel"],["surprised","מופתע",1,"feel"],["bored","משועמם",1,"feel"],["excited","נרגש",1,"feel"],["proud","גאה",2,"feel"],["jealous","מקנא",2,"feel"],["nervous","עצבני",2,"feel"],["calm","רגוע",2,"feel"],["lonely","בודד",2,"feel"],
+["go","ללכת",1,"verb"],["come","לבוא",1,"verb"],["eat","לאכול",1,"verb"],["drink","לשתות",1,"verb"],["sleep","לישון",1,"verb"],["run","לרוץ",1,"verb"],["walk","ללכת ברגל",1,"verb"],["sit","לשבת",1,"verb"],["stand","לעמוד",1,"verb"],["open","לפתוח",1,"verb"],["close","לסגור",1,"verb"],["read","לקרוא",1,"verb"],["write","לכתוב",1,"verb"],["speak","לדבר",1,"verb"],["listen","להקשיב",1,"verb"],["see","לראות",1,"verb"],["look","להסתכל",1,"verb"],["hear","לשמוע",1,"verb"],["play","לשחק",1,"verb"],["study","ללמוד",1,"verb"],["learn","ללמוד",1,"verb"],["teach","ללמד",1,"verb"],["buy","לקנות",1,"verb"],["sell","למכור",1,"verb"],["give","לתת",1,"verb"],["take","לקחת",1,"verb"],["make","להכין",1,"verb"],["help","לעזור",1,"verb"],["love","לאהוב",1,"verb"],["like","לאהוב",1,"verb"],["want","לרצות",1,"verb"],["need","להצטרך",1,"verb"],["know","לדעת",1,"verb"],["think","לחשוב",1,"verb"],["say","לומר",1,"verb"],["tell","לספר",1,"verb"],["ask","לשאול",1,"verb"],["sing","לשיר",1,"verb"],["dance","לרקוד",1,"verb"],["swim","לשחות",1,"verb"],["fly","לעוף",1,"verb"],["drive","לנהוג",1,"verb"],["ride","לרכב",1,"verb"],["cook","לבשל",1,"verb"],["clean","לנקות",1,"verb"],["wash","לרחוץ",1,"verb"],["decide","להחליט",2,"verb"],["improve","להשתפר",2,"verb"],["borrow","לשאול",2,"verb"],["lend","להשאיל",2,"verb"],["explain","להסביר",2,"verb"],["arrive","להגיע",2,"verb"],["choose","לבחור",2,"verb"],["forget","לשכוח",2,"verb"],["remember","לזכור",2,"verb"],["believe","להאמין",2,"verb"],["understand","להבין",2,"verb"],["build","לבנות",2,"verb"],["break","לשבור",2,"verb"],["fix","לתקן",2,"verb"],["grow","לגדול",2,"verb"],["fall","ליפול",2,"verb"],["win","לנצח",2,"verb"],["lose","להפסיד",2,"verb"],["promise","להבטיח",2,"verb"],["invite","להזמין",2,"verb"],["join","להצטרף",2,"verb"],["practice","להתאמן",2,"verb"],["repeat","לחזור על",2,"verb"],["translate","לתרגם",2,"verb"],
+["big","גדול",1,"adj"],["small","קטן",1,"adj"],["good","טוב",1,"adj"],["bad","רע",1,"adj"],["hot","חם",1,"adj"],["cold","קר",1,"adj"],["new","חדש",1,"adj"],["old","ישן",1,"adj"],["fast","מהר",1,"adj"],["slow","איטי",1,"adj"],["long","ארוך",1,"adj"],["short","קצר",1,"adj"],["high","גבוה",1,"adj"],["low","נמוך",1,"adj"],["easy","קל",1,"adj"],["hard","קשה",1,"adj"],["beautiful","יפה",1,"adj"],["rich","עשיר",1,"adj"],["poor","עני",1,"adj"],["young","צעיר",1,"adj"],["strong","חזק",1,"adj"],["weak","חלש",1,"adj"],["heavy","כבד",1,"adj"],["clean","נקי",1,"adj"],["dirty","מלוכלך",1,"adj"],["full","מלא",1,"adj"],["empty","ריק",1,"adj"],["honest","ישר",2,"adj"],["brave","אמיץ",2,"adj"],["patient","סבלני",2,"adj"],["polite","מנומס",2,"adj"],["curious","סקרן",2,"adj"],["generous","נדיב",2,"adj"],["dangerous","מסוכן",2,"adj"],["safe","בטוח",2,"adj"],["famous","מפורסם",2,"adj"],["ancient","עתיק",2,"adj"],["modern","מודרני",2,"adj"],["perfect","מושלם",2,"adj"],["terrible","נורא",2,"adj"],["wonderful","נהדר",2,"adj"],
+["yes","כן",1,"misc"],["no","לא",1,"misc"],["hello","שלום",1,"misc"],["thanks","תודה",1,"misc"],["please","בבקשה",1,"misc"],["sorry","סליחה",1,"misc"],["friend","חבר",1,"misc"],["name","שם",1,"misc"],["people","אנשים",1,"misc"],["world","עולם",1,"misc"],["life","חיים",1,"misc"],["thing","דבר",1,"misc"],["way","דרך",1,"misc"],["place","מקום",1,"misc"],["story","סיפור",1,"misc"],["game","משחק",1,"misc"],["song","שיר",1,"misc"],["color","צבע",1,"misc"],["number","מספר",1,"misc"],["almost","כמעט",2,"misc"],["enough","מספיק",2,"misc"],["probably","כנראה",2,"misc"],["instead","במקום",2,"misc"],["already","כבר",2,"misc"],["still","עדיין",2,"misc"],["again","שוב",2,"misc"],["together","ביחד",2,"misc"],["alone","לבד",2,"misc"],["maybe","אולי",2,"misc"],["always","תמיד",1,"misc"],["never","אף פעם",1,"misc"],["sometimes","לפעמים",1,"misc"],["usually","בדרך כלל",1,"misc"]];
+/* ================= SENTENCE GENERATOR DATA ================= */
+// verb: b=base, s=3rd person, ing, past, pp, objs=complements that fit grammatically
+const VERBS=[
+{b:"play",s:"plays",ing:"playing",past:"played",pp:"played",obj:["football","basketball","with friends","the guitar","games"]},
+{b:"eat",s:"eats",ing:"eating",past:"ate",pp:"eaten",obj:["breakfast","lunch","dinner","an apple","bread"]},
+{b:"drink",s:"drinks",ing:"drinking",past:"drank",pp:"drunk",obj:["water","tea","coffee","milk","juice"]},
+{b:"read",s:"reads",ing:"reading",past:"read",pp:"read",obj:["a book","books","the newspaper","a story"]},
+{b:"write",s:"writes",ing:"writing",past:"wrote",pp:"written",obj:["a letter","a story","homework","an email"]},
+{b:"watch",s:"watches",ing:"watching",past:"watched",pp:"watched",obj:["TV","a movie","the game","the children"]},
+{b:"go",s:"goes",ing:"going",past:"went",pp:"gone",obj:["to school","to work","to the park","home","to the store"]},
+{b:"walk",s:"walks",ing:"walking",past:"walked",pp:"walked",obj:["in the park","to school","slowly","with the dog"]},
+{b:"run",s:"runs",ing:"running",past:"ran",pp:"run",obj:["in the morning","fast","in the race","to the bus"]},
+{b:"study",s:"studies",ing:"studying",past:"studied",pp:"studied",obj:["English","math","for the test","at school"]},
+{b:"learn",s:"learns",ing:"learning",past:"learned",pp:"learned",obj:["English","new words","to swim","quickly"]},
+{b:"help",s:"helps",ing:"helping",past:"helped",pp:"helped",obj:["my mother","my father","my friends","other people"]},
+{b:"clean",s:"cleans",ing:"cleaning",past:"cleaned",pp:"cleaned",obj:["the house","the room","the kitchen","the table"]},
+{b:"cook",s:"cooks",ing:"cooking",past:"cooked",pp:"cooked",obj:["dinner","soup","rice","lunch"]},
+{b:"buy",s:"buys",ing:"buying",past:"bought",pp:"bought",obj:["bread","milk","a gift","new shoes"]},
+{b:"open",s:"opens",ing:"opening",past:"opened",pp:"opened",obj:["the door","the window","the book","the box"]},
+{b:"close",s:"closes",ing:"closing",past:"closed",pp:"closed",obj:["the door","the window","the store"]},
+{b:"sing",s:"sings",ing:"singing",past:"sang",pp:"sung",obj:["songs","a song","loudly","in the shower"]},
+{b:"sleep",s:"sleeps",ing:"sleeping",past:"slept",pp:"slept",obj:["late","early","well","in the afternoon"]},
+{b:"work",s:"works",ing:"working",past:"worked",pp:"worked",obj:["hard","in an office","every day","at home"]},
+{b:"drive",s:"drives",ing:"driving",past:"drove",pp:"driven",obj:["a car","to work","slowly","fast"]},
+{b:"swim",s:"swims",ing:"swimming",past:"swam",pp:"swum",obj:["in the sea","in the pool","fast","well"]},
+{b:"ride",s:"rides",ing:"riding",past:"rode",pp:"ridden",obj:["a bicycle","a horse","to school"]},
+{b:"draw",s:"draws",ing:"drawing",past:"drew",pp:"drawn",obj:["pictures","a picture","well","with pencils"]},
+{b:"speak",s:"speaks",ing:"speaking",past:"spoke",pp:"spoken",obj:["English","Hebrew","slowly","clearly"]},
+{b:"listen",s:"listens",ing:"listening",past:"listened",pp:"listened",obj:["to music","to the teacher","carefully"]},
+{b:"teach",s:"teaches",ing:"teaching",past:"taught",pp:"taught",obj:["English","children","at school"]},
+{b:"visit",s:"visits",ing:"visiting",past:"visited",pp:"visited",obj:["my grandmother","my friends","the city","London"]},
+{b:"meet",s:"meets",ing:"meeting",past:"met",pp:"met",obj:["my friends","new people","at the station"]},
+{b:"like",s:"likes",ing:"liking",past:"liked",pp:"liked",obj:["coffee","music","books","the movie"]},
+{b:"love",s:"loves",ing:"loving",past:"loved",pp:"loved",obj:["my family","music","football","chocolate"]},
+{b:"want",s:"wants",ing:"wanting",past:"wanted",pp:"wanted",obj:["water","to sleep","a new phone","to go home"]},
+{b:"need",s:"needs",ing:"needing",past:"needed",pp:"needed",obj:["help","water","money","a new bag"]},
+{b:"finish",s:"finishes",ing:"finishing",past:"finished",pp:"finished",obj:["homework","work","the book","dinner"]},
+{b:"start",s:"starts",ing:"starting",past:"started",pp:"started",obj:["work","the game","school","the lesson"]}];
+const SUBJ_S3=["He","She","My mother","My father","My sister","My brother","My friend","The teacher","The doctor","The baby","My cousin","The driver"];
+const SUBJ_PL=["I","You","We","They","My parents","The children","My friends","The students","My brothers","The boys"];
+const TIMES_B=["every day","every morning","in the morning","in the evening","at night","on Sunday","after school","before bed","today","usually","sometimes"];
+const TIMES_PAST=["yesterday","last week","last night","two days ago","this morning","last year"];
+const TIMES_FUT=["tomorrow","next week","next year","soon","on Friday","this evening"];
+// phrases for listen&choose: [en, he, level]
+const PHRASES=[
+["good morning","בוקר טוב",1],["thank you very much","תודה רבה",1],["how are you","מה שלומך",1],["see you later","נתראה אחר כך",1],["I don't know","אני לא יודע",1],["excuse me","סליחה",1],["where is the bathroom","איפה השירותים",1],["how much does it cost","כמה זה עולה",1],["I am hungry","אני רעב",1],["I am tired","אני עייף",1],["what time is it","מה השעה",1],["I love you","אני אוהב אותך",1],["no problem","אין בעיה",1],["of course","בוודאי",1],["not bad","לא רע",1],["wait a moment","חכה רגע",1],["come here","בוא הנה",1],["sit down","שב",1],["stand up","קום",1],["open the door","פתח את הדלת",1],["close the window","סגור את החלון",1],["turn on the light","תדליק את האור",1],["turn off the TV","תכבה את הטלוויזיה",1],["I need help","אני צריך עזרה",1],["it is raining","יורד גשם",1],["it is hot today","חם היום",1],["I am late","אני מאחר",1],["good night","לילה טוב",1],["well done","כל הכבוד",1],["good luck","בהצלחה",1],
+["in my opinion","לדעתי",2],["as soon as possible","בהקדם האפשרי",2],["it depends","זה תלוי",2],["never mind","לא משנה",2],["so far so good","עד כה הכול טוב",2],["I am looking forward to it","אני מצפה לזה",2],["it is worth it","שווה את זה",2],["to be honest","למען האמת",2],["on the other hand","מצד שני",2],["at the same time","באותו זמן",2],["in the meantime","בינתיים",2],["by the way","דרך אגב",2],["for example","לדוגמה",2],["more or less","פחות או יותר",2],["once in a while","מדי פעם",2],["all of a sudden","פתאום",2],["step by step","צעד אחר צעד",2],["day by day","יום אחר יום",2],["sooner or later","בסופו של דבר",2],["take your time","קח את הזמן",2]];
+// curated fill-in-the-blank: [sentence with ___, answer, [3 distractors], level]
+const FILL_T=[
+["I ___ breakfast at eight o'clock","eat",["sleep","run","sing"],1],
+["The opposite of hot is ___","cold",["warm","big","fast"],1],
+["We drink water from a ___","cup",["plate","chair","book"],1],
+["There are seven days in a ___","week",["month","year","hour"],1],
+["My mother's sister is my ___","aunt",["uncle","brother","cousin"],1],
+["When it rains, I take an ___","umbrella",["apple","shoe","key"],1],
+["The baby is crying because he is ___","hungry",["tall","blue","loud"],1],
+["Fish live in the ___","water",["tree","sky","house"],1],
+["Before you cross the road, look left and ___","right",["up","down","back"],1],
+["At night we see the moon and the ___","stars",["cars","tables","doors"],1],
+["A ___ is a place where you buy bread","bakery",["school","park","hospital"],1],
+["You write with a pen on a piece of ___","paper",["water","bread","glass"],1],
+["The cat is ___ on the sofa","sleeping",["sleep","sleeps","slept"],1],
+["She ___ to school by bus every day","goes",["go","going","gone"],1],
+["They ___ football in the park now","are playing",["plays","play","played"],1],
+["I ___ TV yesterday evening","watched",["watch","watches","watching"],1],
+["He ___ his teeth every morning","brushes",["brush","brushing","brushed"],1],
+["We ___ in a small house","live",["lives","living","lived"],1],
+["My father ___ in an office","works",["work","working","worked"],1],
+["The sun ___ in the morning","rises",["rise","rising","rose"],1],
+["I have lived here ___ 2019","since",["for","from","at"],2],
+["She is interested ___ learning languages","in",["on","at","for"],2],
+["If it rains tomorrow, we ___ stay home","will",["would","did","are"],2],
+["He has already ___ his homework","finished",["finish","finishing","finishes"],2],
+["This book is ___ than the other one","better",["best","good","more good"],2],
+["They asked me ___ I wanted some tea","if",["that","what","which"],2],
+["We look forward ___ seeing you soon","to",["for","at","on"],2],
+["She is good ___ playing the piano","at",["in","on","for"],2],
+["The movie was ___ boring that I fell asleep","so",["such","too","very"],2],
+["I have ___ finished the book","just",["yet","since","ever"],2],
+["He speaks English ___ than his brother","better",["good","best","more good"],2],
+["They have lived here ___ ten years","for",["since","from","at"],2],
+["You ___ smoke in the hospital - it is forbidden","must not",["don't have to","would","could"],2],
+["I am looking ___ my keys. Have you seen them?","for",["at","after","on"],2],
+["She ___ been studying English for three months","has",["is","was","does"],2]];
+/* ================= STATE ================= */
+const LS_KEY="anglit_click_progress_v2";
+let state=loadState();
+let level="beg";
+let session=null;
+function loadState(){
+  try{const s=JSON.parse(localStorage.getItem(LS_KEY));if(s&&typeof s==="object")return s;}catch(e){}
+  // migrate v1 points/streak if present
+  let pts=0,streak=0,lastDay=null;
+  try{const o=JSON.parse(localStorage.getItem("anglit_click_progress_v1"));if(o){pts=o.points||0;streak=o.streak||0;lastDay=o.lastDay||null;}}catch(e){}
+  return {points:pts,streak,lastDay,stats:{},mistakes:{}}; // stats: "lvl:type" -> {a answered, c correct}; mistakes: en -> count
+}
+function saveState(){localStorage.setItem(LS_KEY,JSON.stringify(state));}
+function statKey(t){return level+":"+t;}
+function addStats(t,wasCorrect){
+  const k=statKey(t);if(!state.stats[k])state.stats[k]={a:0,c:0};
+  state.stats[k].a++;if(wasCorrect)state.stats[k].c++;
+}
+function addMistake(en){state.mistakes[en]=(state.mistakes[en]||0)+1;saveState();}
+function clearMistake(en){if(state.mistakes[en]){state.mistakes[en]--;if(state.mistakes[en]<=0)delete state.mistakes[en];saveState();}}
+function mistakeWords(lv){
+  const set=new Set(WORDS.filter(w=>w[2]===lv).map(w=>w[0]));
+  return Object.keys(state.mistakes).filter(en=>set.has(en));
+}
+function addPoints(n){
+  state.points+=n;
+  const today=new Date().toDateString();
+  if(state.lastDay!==today){
+    const y=new Date();y.setDate(y.getDate()-1);
+    state.streak=(state.lastDay===y.toDateString())?state.streak+1:1;
+    state.lastDay=today;
+  }
+  saveState();refreshStats();
+}
+function refreshStats(){
+  document.getElementById("statPoints").textContent=state.points;
+  document.getElementById("statStreak").textContent=state.streak;
+}
+
+/* ================= TTS (no-cut manager) ================= */
+// Rules: auto audio NEVER cancels the previous utterance (queued instead), so a
+// sentence always plays to the end. Only explicit user actions (replay buttons,
+// going home) cancel. Utterances are kept in TTS.keep to avoid Chrome's
+// mid-speech garbage-collection bug, and a keep-alive resume() fights Chrome's
+// long-utterance cutoff bug.
+const TTS={
+  keep:[],voices:[],voice:null,
+  init(){
+    if(!("speechSynthesis" in window))return;
+    const load=()=>{this.voices=speechSynthesis.getVoices();this.voice=this.pick();};
+    load();speechSynthesis.onvoiceschanged=load;
+    setInterval(()=>{try{if(speechSynthesis.speaking&&!speechSynthesis.paused)speechSynthesis.resume();}catch(e){}},4000);
+  },
+  pick(){
+    const v=this.voices;
+    return v.find(x=>x.lang==="en-US")||v.find(x=>x.lang&&x.lang.startsWith("en-US"))||v.find(x=>x.lang==="en-GB")||v.find(x=>x.lang&&x.lang.startsWith("en"))||null;
+  },
+  // cancel=true only for explicit user-initiated replay
+  speak(text,rate,cancel){
+    if(!("speechSynthesis" in window))return null;
+    if(cancel)speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang="en-US";u.rate=rate||0.92;u.pitch=1;
+    if(!this.voice)this.voice=this.pick();
+    if(this.voice)u.voice=this.voice;
+    this.keep.push(u);if(this.keep.length>12)this.keep.shift();
+    speechSynthesis.speak(u);
+    return u;
+  },
+  stop(){if("speechSynthesis" in window)speechSynthesis.cancel();}
+};
+
+/* ================= HELPERS ================= */
+function rnd(a){return a[Math.floor(Math.random()*a.length)];}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function esc(s){return s.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");}
+function normalize(s){return s.toLowerCase().replace(/[.,!?;:'"”’\-]/g,"").replace(/\s+/g," ").trim();}
+function sample(pool,n){return shuffle(pool).slice(0,n);}
+function lvNum(){return level==="beg"?1:2;}
+function wordPool(){return WORDS.filter(w=>w[2]===lvNum());}
+function pickWords(n){
+  const pool=wordPool();
+  const m=mistakeWords(lvNum());
+  const out=[];
+  // inject up to 2 mistake words for spaced repetition
+  const mCount=Math.min(m.length,Math.min(2,n));
+  sample(m,mCount).forEach(en=>{const w=pool.find(x=>x[0]===en);if(w)out.push(w);});
+  sample(pool.filter(w=>!out.includes(w)),n-out.length).forEach(w=>out.push(w));
+  return shuffle(out);
+}
+
+/* ================= GENERATORS ================= */
+// A grammatical English sentence. lv 1: simple present. lv 2: present perfect / past / future.
+function genSentence(lv,maxWords){
+  for(let tries=0;tries<60;tries++){
+    let s;
+    if(lv===1){
+      const s3=Math.random()<0.5;
+      const subj=s3?rnd(SUBJ_S3):rnd(SUBJ_PL);
+      const v=rnd(VERBS);
+      s=subj+" "+(s3?v.s:v.b)+" "+rnd(v.obj);
+      if(Math.random()<0.55)s+=" "+rnd(TIMES_B);
+    }else{
+      const t=Math.random();
+      const s3=Math.random()<0.5;
+      const subj=s3?rnd(SUBJ_S3):rnd(SUBJ_PL);
+      const v=rnd(VERBS);
+      if(t<0.34) s=subj+" "+(s3?"has":"have")+" "+rnd(["never","just","already"])+" "+v.pp+" "+rnd(v.obj);
+      else if(t<0.67) s=subj+" "+v.past+" "+rnd(v.obj)+" "+rnd(TIMES_PAST);
+      else s=subj+" "+rnd(["will","is going to","are going to"].filter(x=>x==="will"||(s3?x.startsWith("is"):x.startsWith("are"))))+" "+v.b+" "+rnd(v.obj)+" "+rnd(TIMES_FUT);
+    }
+    const wc=s.split(" ").length;
+    if(!maxWords||(wc>=4&&wc<=maxWords))return s;
+  }
+  return lv===1?"I drink water every day":"I have never visited London";
+}
+function genFillVerb(lv){
+  for(let tries=0;tries<40;tries++){
+    const v=rnd(VERBS),obj=rnd(v.obj);
+    let a,o;
+    if(lv===1){
+      if(Math.random()<0.5){a=v.s;o=[v.b,v.ing,v.past];}
+      else{a=v.past;o=[v.b,v.s,v.ing];}
+    }else{
+      if(Math.random()<0.5){a=v.pp;o=[v.b,v.ing,v.past];}
+      else return {s:rnd(SUBJ_PL)+" ___ to learn English",a:rnd(["want","need","like"]),o:shuffle(["wants","wanting","wanted"])};
+    }
+    o=[...new Set(o.filter(x=>x!==a))];
+    if(o.length<3)continue;   // e.g. read/read/read - pick another verb
+    let s;
+    if(lv===1){
+      if(a===v.s)s=rnd(SUBJ_S3)+" ___ "+obj+" "+rnd(TIMES_B);
+      else s=rnd(SUBJ_PL)+" ___ "+obj+" "+rnd(TIMES_PAST);
+    }else s=rnd(SUBJ_S3)+" has already ___ "+obj;
+    return {s,a,o:shuffle(o)};
+  }
+  return {s:"She ___ English very well",a:"speaks",o:shuffle(["speak","speaking","spoke"])};
+}
+
+/* ================= QUESTION FACTORY ================= */
+// Each question is an object consumed by the matching renderer.
+function makeQuestions(type){
+  const lv=lvNum(),qs=[];
+  if(type==="dictation"||type==="order"){
+    const n=type==="order"?8:10,seen=new Set();
+    while(qs.length<n){const s=genSentence(lv,type==="order"?8:14);if(seen.has(s))continue;seen.add(s);qs.push({s});}
+  }
+  else if(type==="spell"){
+    pickWords(10).forEach(w=>qs.push({en:w[0],he:w[1]}));
+  }
+  else if(type==="listenChoose"){
+    const usePhrases=Math.random()<0.4;
+    if(usePhrases){
+      const pool=PHRASES.filter(p=>p[2]===lv);
+      sample(pool,10).forEach(p=>qs.push({en:p[0],opts:buildOpts(p[1],pool.map(x=>x[1])),a:p[1]}));
+    }else{
+      const pool=wordPool();
+      pickWords(10).forEach(w=>qs.push({en:w[0],opts:buildOpts(w[1],pool.map(x=>x[1]),w),a:w[1],word:w[0]}));
+    }
+  }
+  else if(type==="mcq"){
+    const pool=wordPool();
+    pickWords(10).forEach(w=>{
+      if(Math.random()<0.5) qs.push({mode:"en2he",en:w[0],opts:buildOpts(w[1],pool.map(x=>x[1]),w),a:w[1],word:w[0]});
+      else qs.push({mode:"he2en",he:w[1],opts:buildOpts(w[0],pool.map(x=>x[0]),w),a:w[0],word:w[0]});
+    });
+  }
+  else if(type==="fill"){
+    const curated=shuffle(FILL_T.filter(t=>t[3]===lv)).slice(0,5);
+    curated.forEach(t=>qs.push({s:t[0],a:t[1],o:shuffle(t[2].slice())}));
+    while(qs.length<10){const g=genFillVerb(lv);qs.push({s:g.s,a:g.a,o:g.o});}
+    shuffle(qs);
+  }
+  else if(type==="match"){
+    const words=pickWords(24);
+    for(let i=0;i<4;i++)qs.push({pairs:words.slice(i*6,i*6+6).map(w=>[w[0],w[1]])});
+  }
+  else if(type==="truefalse"){
+    const pool=wordPool();
+    pickWords(10).forEach(w=>{
+      const correct=Math.random()<0.5;
+      let shown=w[1];
+      if(!correct){let other;do{other=rnd(pool)[1];}while(other===w[1]);shown=other;}
+      qs.push({en:w[0],shown,a:correct,real:w[1]});
+    });
+  }
+  else if(type==="flash"){
+    pickWords(10).forEach(w=>qs.push({en:w[0],he:w[1]}));
+  }
+  return qs;
+}
+function buildOpts(answer,pool,word){
+  // prefer same-category distractors when a word is given
+  let cand=pool.filter(x=>x!==answer);
+  if(word){
+    const isHe=word[1]===answer;
+    const samePool=WORDS.filter(w=>w[3]===word[3]).map(w=>isHe?w[1]:w[0]).filter(x=>x!==answer);
+    if(samePool.length>=3)cand=samePool;
+  }
+  return shuffle([answer,...sample([...new Set(cand)],3)]);
+}
+/* ================= EXERCISE META ================= */
+const EX_META=[
+{key:"dictation",ico:"🎧",c:"#5b6cff",title:"שומעים וכותבים",desc:"מקשיבים למשפט חדש באנגלית וכותבים אותו. שמיעה מלאה, שמיעה חוזרת וגם שמיעה איטית - בלי קיטועים."},
+{key:"spell",ico:"🔤",c:"#0ea493",title:"שומעים ומאייתים",desc:"שומעים מילה ומאייתים אותה באנגלית. מושלם לאיות."},
+{key:"listenChoose",ico:"👂",c:"#ef5da8",title:"שומעים ומבינים",desc:"שומעים מילה או ביטוי ובוחרים את המשמעות הנכונה בעברית."},
+{key:"fill",ico:"✍️",c:"#ff6b4a",title:"משלימים את המשפט",desc:"חסרה מילה במשפט - בוחרים את הנכונה. כולל שאלות דקדוק שנוצרות מחדש בכל סבב."},
+{key:"mcq",ico:"🎯",c:"#f7b32b",title:"מה המשמעות?",desc:"שאלות אמריקאיות על מילים, גם מאנגלית לעברית וגם הפוך."},
+{key:"match",ico:"🧩",c:"#0ea493",title:"משחק ההתאמות",desc:"מחברים מילים באנגלית למשמעות שלהן. צירופים חדשים בכל סבב."},
+{key:"order",ico:"🔀",c:"#8b5cf6",title:"מסדרים את המשפט",desc:"המילים התפזרו! מסדרים משפט חדש לפי הסדר הנכון באנגלית."},
+{key:"truefalse",ico:"⚖️",c:"#14b8a6",title:"נכון או לא נכון?",desc:"האם התרגום נכון? חצי מהפעמים מישהו מנסה לבלבל אותך..."},
+{key:"flash",ico:"🃏",c:"#f97316",title:"כרטיסיות זיכרון",desc:"הופכים כרטיס ובודקים את עצמך. מילים שטעית בהן חוזרות שוב."}];
+
+/* ================= NAV / FLOW ================= */
+function setLevel(l){
+  level=l;
+  document.getElementById("tabBeg").classList.toggle("active",l==="beg");
+  document.getElementById("tabAdv").classList.toggle("active",l==="adv");
+  renderCards();
+}
+function goHome(){
+  TTS.stop();
+  session=null;
+  document.getElementById("exerciseView").style.display="none";
+  document.getElementById("homeView").style.display="block";
+  renderCards();
+}
+function openExercise(type){
+  session={type,idx:0,questions:makeQuestions(type),points:0,answered:0,correct:0};
+  document.getElementById("homeView").style.display="none";
+  document.getElementById("exerciseView").style.display="block";
+  nextQuestion();
+}
+function updateBar(){
+  const total=session.questions.length;
+  document.getElementById("exBar").style.width=(session.answered/total*100)+"%";
+  document.getElementById("exCount").textContent="שאלה "+Math.min(session.answered+1,total)+" מתוך "+total;
+}
+function nextQuestion(){
+  updateBar();
+  const stage=document.getElementById("stage");
+  if(session.idx>=session.questions.length)return showResult();
+  const q=session.questions[session.idx];
+  stage.classList.remove("pop");void stage.offsetWidth;stage.classList.add("pop");
+  ({dictation:rDictation,spell:rSpell,listenChoose:rListen,fill:rFill,mcq:rMcq,match:rMatch,order:rOrder,truefalse:rTF,flash:rFlash})[session.type](stage,q);
+}
+function advance(wasCorrect,pts,delay){
+  session.answered++;
+  addStats(session.type,wasCorrect);
+  if(wasCorrect){session.correct++;addPoints(pts);session.points+=pts;}
+  saveState();
+  // note: no TTS.stop() here - the current sentence always plays to the end,
+  // and the next question's audio queues after it instead of cutting it.
+  setTimeout(()=>{session.idx++;nextQuestion();},delay||(wasCorrect?1500:2700));
+}
+function showResult(){
+  const stage=document.getElementById("stage");
+  const total=session.questions.length;
+  const pct=Math.round(session.correct/total*100);
+  let emoji="💪",msg="ניסיון יפה! עוד סיבוב וזה ישב.";
+  if(pct===100){emoji="🏆";msg="מושלם! כל התשובות נכונות!";}
+  else if(pct>=70){emoji="🎉";msg="כל הכבוד! אתה מתקדם יפה מאוד.";}
+  else if(pct>=40){emoji="👍";msg="בכיוון הנכון! תרגול נוסף יעשה פלאים.";}
+  stage.innerHTML=`<div class="result-emoji">${emoji}</div>
+    <h2>סיימת את הסבב!</h2>
+    <div class="result-pts">${session.correct} מתוך ${total} נכונות · צברת <b>+${session.points}</b> נקודות</div>
+    <div class="feedback good">${msg}</div>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;justify-content:center">
+      <button class="btn primary" onclick="openExercise(session.type)">🔁 סבב חדש עם שאלות חדשות</button>
+      <button class="btn ghost" onclick="goHome()">לתפריט הראשי</button>
+    </div>`;
+  document.getElementById("exBar").style.width="100%";
+  if(pct>=70)confetti();
+}
+function confetti(){
+  const colors=["#ff6b4a","#0ea493","#f7b32b","#5b6cff","#ef5da8"];
+  for(let i=0;i<60;i++){
+    const c=document.createElement("div");
+    c.className="confetti";c.style.left=Math.random()*100+"vw";
+    c.style.background=colors[i%colors.length];
+    c.style.animationDuration=(1.6+Math.random()*1.6)+"s";
+    c.style.animationDelay=(Math.random()*.5)+"s";
+    document.body.appendChild(c);setTimeout(()=>c.remove(),3500);
+  }
+}
+function renderCards(){
+  const grid=document.getElementById("cardsGrid");
+  grid.innerHTML="";
+  EX_META.forEach(m=>{
+    const st=state.stats[level+":"+m.key]||{a:0,c:0};
+    const acc=st.a?Math.round(st.c/st.a*100):null;
+    const el=document.createElement("div");
+    el.className="card";el.style.setProperty("--c",m.c);
+    el.innerHTML=`<div class="c-ico">${m.ico}</div><h3>${m.title}</h3><p>${m.desc}</p>
+      <div class="c-meta"><span>${st.a?"ענית על "+st.a+" שאלות":"עוד לא התחלת"}</span><span>${acc!==null?acc+"% הצלחה":"♾️"}</span></div>`;
+    el.onclick=()=>openExercise(m.key);
+    grid.appendChild(el);
+  });
+}
+
+/* ================= 1. DICTATION ================= */
+function rDictation(stage,q){
+  stage.innerHTML=`<h2>שומעים וכותבים 🎧</h2>
+    <div class="sub">לחץ על הרמקול, הקשב למשפט, וכתוב אותו באנגלית. ההשמעה תמיד מושלמת עד הסוף.</div>
+    <button class="play-btn" id="playBtn" title="נגן">🔊</button>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;justify-content:center">
+      <button class="mini-btn" id="replayBtn">🔁 שמע שוב</button>
+      <button class="mini-btn" id="slowBtn">🐢 שמע לאט</button>
+      <button class="mini-btn" id="hintBtn">💡 רמז (מילה ראשונה)</button>
+    </div>
+    <input class="answer-input" id="ans" placeholder="Type what you hear..." autocomplete="off" spellcheck="false">
+    <div class="feedback" id="fb"></div>
+    <div id="diffArea"></div>
+    <button class="btn primary" id="checkBtn">בדוק ✔</button>`;
+  const ans=document.getElementById("ans"),fb=document.getElementById("fb"),play=document.getElementById("playBtn");
+  let hintUsed=false;
+  const doPlay=(r,cancel)=>{
+    play.classList.add("speaking");
+    const u=TTS.speak(q.s,r,cancel);
+    if(u)u.onend=()=>play.classList.remove("speaking");else play.classList.remove("speaking");
+  };
+  play.onclick=()=>doPlay(0.92,true);          // explicit replay: allowed to restart
+  document.getElementById("replayBtn").onclick=()=>doPlay(0.92,true);
+  document.getElementById("slowBtn").onclick=()=>doPlay(0.55,true);
+  document.getElementById("hintBtn").onclick=()=>{hintUsed=true;ans.value=q.s.split(" ")[0]+" ";ans.focus();};
+  setTimeout(()=>doPlay(0.92,false),400);       // auto-play: queued, never cuts the previous sentence
+  ans.focus();
+  ans.addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("checkBtn").click();});
+  document.getElementById("checkBtn").onclick=()=>{
+    const guess=ans.value;
+    if(!guess.trim()){fb.className="feedback bad";fb.textContent="כתוב משהו קודם 🙂";return;}
+    const ok=normalize(guess)===normalize(q.s);
+    showDiff(guess,q.s,ok);
+    fb.className="feedback "+(ok?"good":"bad");
+    fb.textContent=ok?(hintUsed?"נכון! (עם רמז) +8":"מעולה! בול! +10"):"לא מדויק - הנה ההשוואה. המשפט המלא מתנגן עכשיו עד הסוף 👇";
+    if(!ok)TTS.speak(q.s,0.85,false);           // play the correct sentence fully (queued, not cutting)
+    document.getElementById("checkBtn").disabled=true;ans.disabled=true;
+    advance(ok,hintUsed?8:10,ok?1500:3000);
+  };
+}
+function showDiff(guess,sentence,ok){
+  const area=document.getElementById("diffArea");
+  const gW=normalize(guess).split(" ").filter(Boolean);
+  const sW=normalize(sentence).split(" ").filter(Boolean);
+  const orig=sentence.split(" ").filter(Boolean);
+  let html='<div class="diff-line en">';
+  for(let i=0;i<sW.length;i++){
+    const g=gW[i];
+    if(ok||g===sW[i])html+=`<span class="diff-word diff-ok">${esc(orig[i])}</span>`;
+    else if(g)html+=`<span class="diff-word diff-miss">${esc(guess.split(" ").filter(Boolean)[i]||"")}</span><span class="diff-word diff-exp">${esc(orig[i])}</span>`;
+    else html+=`<span class="diff-word diff-exp">${esc(orig[i])}</span>`;
+  }
+  area.innerHTML=html+"</div>";
+}
+
+/* ================= 2. SPELL ================= */
+function rSpell(stage,q){
+  stage.innerHTML=`<h2>שומעים ומאייתים 🔤</h2>
+    <div class="sub">שומעים מילה וכותבים אותה באנגלית. המשמעות: <b>${esc(q.he)}</b></div>
+    <button class="play-btn" id="playBtn">🔊</button>
+    <div style="display:flex;gap:8px">
+      <button class="mini-btn" id="slowBtn">🐢 לאט</button>
+      <button class="mini-btn" id="replayBtn">🔁 שוב</button>
+    </div>
+    <input class="answer-input" id="ans" placeholder="Spell the word..." autocomplete="off" spellcheck="false" style="text-align:center;direction:ltr">
+    <div class="feedback" id="fb"></div>
+    <button class="btn primary" id="checkBtn">בדוק ✔</button>`;
+  const ans=document.getElementById("ans"),fb=document.getElementById("fb");
+  const play=(r,c)=>TTS.speak(q.en,r||1,c);
+  document.getElementById("playBtn").onclick=()=>play(1,true);
+  document.getElementById("replayBtn").onclick=()=>play(1,true);
+  document.getElementById("slowBtn").onclick=()=>play(0.6,true);
+  setTimeout(()=>play(1,false),350);
+  ans.focus();
+  ans.addEventListener("keydown",e=>{if(e.key==="Enter")document.getElementById("checkBtn").click();});
+  document.getElementById("checkBtn").onclick=()=>{
+    const guess=ans.value;
+    if(!guess.trim()){fb.className="feedback bad";fb.textContent="כתוב משהו קודם 🙂";return;}
+    const ok=normalize(guess)===normalize(q.en);
+    fb.className="feedback "+(ok?"good":"bad");
+    fb.innerHTML=ok?"איות מושלם! +10":"האיות הנכון: <span class='en'><b>"+esc(q.en)+"</b></span>";
+    if(!ok)addMistake(q.en);else clearMistake(q.en);
+    document.getElementById("checkBtn").disabled=true;ans.disabled=true;
+    advance(ok,10);
+  };
+}
+
+/* ================= 3. LISTEN & CHOOSE ================= */
+function rListen(stage,q){
+  stage.innerHTML=`<h2>שומעים ומבינים 👂</h2>
+    <div class="sub">מה שמעת? בחר את המשמעות הנכונה</div>
+    <button class="play-btn" id="playBtn">🔊</button>
+    <div style="display:flex;gap:8px">
+      <button class="mini-btn" id="slowBtn">🐢 לאט</button>
+      <button class="mini-btn" id="replayBtn">🔁 שוב</button>
+    </div>
+    <div class="options" id="opts"></div>
+    <div class="feedback" id="fb"></div>`;
+  document.getElementById("playBtn").onclick=()=>TTS.speak(q.en,0.95,true);
+  document.getElementById("replayBtn").onclick=()=>TTS.speak(q.en,0.95,true);
+  document.getElementById("slowBtn").onclick=()=>TTS.speak(q.en,0.6,true);
+  setTimeout(()=>TTS.speak(q.en,0.95,false),350);
+  const opts=document.getElementById("opts");
+  q.opts.forEach(t=>{
+    const b=document.createElement("button");
+    b.className="opt";b.style.direction="rtl";b.textContent=t;
+    b.onclick=()=>{
+      const ok=t===q.a;
+      [...opts.children].forEach(x=>{x.disabled=true;if(x.textContent===q.a)x.classList.add("correct");else if(x===b&&!ok)x.classList.add("wrong");});
+      const fb=document.getElementById("fb");
+      fb.className="feedback "+(ok?"good":"bad");
+      fb.innerHTML=(ok?"נכון מאוד! +10":"המשמעות הנכונה: "+esc(q.a))+" · <span class='en'>"+esc(q.en)+"</span>";
+      if(q.word){if(!ok)addMistake(q.word);else clearMistake(q.word);}
+      TTS.speak(q.en,0.95,false);
+      advance(ok,10);
+    };
+    opts.appendChild(b);
+  });
+}
+/* ================= 4. FILL ================= */
+function rFill(stage,q){
+  const parts=q.s.split("___");
+  stage.innerHTML=`<h2>משלימים את המשפט ✍️</h2>
+    <div class="sub">איזו מילה משלימה את המשפט?</div>
+    <div class="blank-sentence en">${esc(parts[0])}<span class="blank-gap" id="gap">?</span>${esc(parts[1]||"")}</div>
+    <div class="options en" id="opts"></div>
+    <div class="feedback" id="fb"></div>`;
+  const opts=document.getElementById("opts");
+  shuffle([q.a,...q.o]).forEach(word=>{
+    const b=document.createElement("button");
+    b.className="opt";b.textContent=word;
+    b.onclick=()=>{
+      const ok=word===q.a;
+      document.getElementById("gap").textContent=q.a;
+      [...opts.children].forEach(x=>{x.disabled=true;if(x.textContent===q.a)x.classList.add("correct");else if(x===b&&!ok)x.classList.add("wrong");});
+      const fb=document.getElementById("fb");
+      fb.className="feedback "+(ok?"good":"bad");
+      fb.textContent=ok?"נכון! +10":"לא בדיוק... המילה הנכונה: "+q.a;
+      TTS.speak(q.s.replace("___",q.a),0.95,false);
+      advance(ok,10);
+    };
+    opts.appendChild(b);
+  });
+}
+
+/* ================= 5. MCQ ================= */
+function rMcq(stage,q){
+  const isEn2He=q.mode==="en2he";
+  stage.innerHTML=`<h2>מה המשמעות? 🎯</h2>
+    <div class="sub">${isEn2He?"מה המשמעות של המילה? (אפשר ללחוץ על הרמקול לשמוע)":"איזו מילה באנגלית מתאימה?"}</div>
+    ${isEn2He?`<div class="blank-sentence en">${esc(q.en)}</div>
+    <button class="mini-btn" id="hearBtn">🔊 שמע</button>`:`<div class="blank-sentence">${esc(q.he)}</div>`}
+    <div class="options" id="opts"></div>
+    <div class="feedback" id="fb"></div>`;
+  if(isEn2He){document.getElementById("hearBtn").onclick=()=>TTS.speak(q.en,1,true);setTimeout(()=>TTS.speak(q.en,1,false),350);}
+  const opts=document.getElementById("opts");
+  q.opts.forEach(t=>{
+    const b=document.createElement("button");
+    b.className="opt";b.textContent=t;
+    if(!isEn2He)b.classList.add("en");
+    b.onclick=()=>{
+      const ok=t===q.a;
+      [...opts.children].forEach(x=>{x.disabled=true;if(x.textContent===q.a)x.classList.add("correct");else if(x===b&&!ok)x.classList.add("wrong");});
+      const fb=document.getElementById("fb");
+      fb.className="feedback "+(ok?"good":"bad");
+      fb.textContent=ok?"בדיוק! +10":"התשובה הנכונה: "+q.a;
+      if(!ok)addMistake(q.word);else clearMistake(q.word);
+      if(!isEn2He)TTS.speak(q.a,1,false);
+      advance(ok,10);
+    };
+    opts.appendChild(b);
+  });
+}
+
+/* ================= 6. MATCHING ================= */
+function rMatch(stage,q){
+  stage.innerHTML=`<h2>משחק ההתאמות 🧩</h2>
+    <div class="sub">לחץ על מילה באנגלית ואז על המשמעות שלה בעברית</div>
+    <div class="match-grid"><div class="match-col" id="colEn"></div><div class="match-col" id="colHe"></div></div>
+    <div class="feedback" id="fb"></div>`;
+  const fb=document.getElementById("fb");
+  let selEn=null,selHe=null,matched=0,mistakes=0;
+  const ens=shuffle(q.pairs.map((p,idx)=>({t:p[0],idx})));
+  const hes=shuffle(q.pairs.map((p,idx)=>({t:p[1],idx})));
+  const tryMatch=()=>{
+    if(!selEn||!selHe)return;
+    if(selEn.idx===selHe.idx){
+      selEn.el.classList.add("done");selHe.el.classList.add("done");
+      selEn.el.classList.remove("sel");selHe.el.classList.remove("sel");
+      matched++;clearMistake(q.pairs[selEn.idx][0]);
+      fb.className="feedback good";fb.textContent="יופי! ✔";
+      if(matched===q.pairs.length){
+        const pts=Math.max(6,12-mistakes*2);
+        fb.textContent="כל הזוגות הותאמו! +"+pts;
+        advance(true,pts);
+      }
+    }else{
+      mistakes++;addMistake(q.pairs[selEn.idx][0]);
+      selEn.el.classList.add("shake");selHe.el.classList.add("shake");
+      const e1=selEn.el,e2=selHe.el;
+      fb.className="feedback bad";fb.textContent="לא מתאים, נסה שוב";
+      setTimeout(()=>{e1.classList.remove("shake","sel");e2.classList.remove("shake","sel");},380);
+    }
+    selEn=selHe=null;
+  };
+  ens.forEach(w=>{
+    const b=document.createElement("button");
+    b.className="match-item";b.textContent=w.t;
+    b.onclick=()=>{
+      if(b.classList.contains("done"))return;
+      if(selEn)selEn.el.classList.remove("sel");
+      selEn={idx:w.idx,el:b};b.classList.add("sel");
+      TTS.speak(w.t,1,true);
+      tryMatch();
+    };
+    document.getElementById("colEn").appendChild(b);
+  });
+  hes.forEach(w=>{
+    const b=document.createElement("button");
+    b.className="match-item";b.style.direction="rtl";b.textContent=w.t;
+    b.onclick=()=>{
+      if(b.classList.contains("done"))return;
+      if(selHe)selHe.el.classList.remove("sel");
+      selHe={idx:w.idx,el:b};b.classList.add("sel");
+      tryMatch();
+    };
+    document.getElementById("colHe").appendChild(b);
+  });
+}
+
+/* ================= 7. SENTENCE ORDER ================= */
+function rOrder(stage,q){
+  const words=q.s.split(" ");
+  stage.innerHTML=`<h2>מסדרים את המשפט 🔀</h2>
+    <div class="sub">לחץ על המילים לפי הסדר הנכון באנגלית</div>
+    <div class="chips answer-zone" id="zone"></div>
+    <div class="chips" id="pool"></div>
+    <div class="feedback" id="fb"></div>
+    <div style="display:flex;gap:10px">
+      <button class="btn teal" id="checkBtn">בדוק ✔</button>
+      <button class="mini-btn" id="hearBtn">🔊 שמע משפט</button>
+    </div>`;
+  const pool=document.getElementById("pool"),zone=document.getElementById("zone"),fb=document.getElementById("fb");
+  const chosen=[];
+  document.getElementById("hearBtn").onclick=()=>TTS.speak(q.s,0.85,true);
+  shuffle(words.map((w,idx)=>({w,idx}))).forEach(o=>{
+    const c=document.createElement("button");
+    c.className="chip";c.textContent=o.w;
+    c.onclick=()=>{c.classList.add("used");chosen.push({w:o.w,el:c});renderZone();};
+    pool.appendChild(c);
+  });
+  function renderZone(){
+    zone.innerHTML="";
+    chosen.forEach((c,i)=>{
+      const b=document.createElement("button");
+      b.className="chip";b.textContent=c.w;
+      b.onclick=()=>{c.el.classList.remove("used");chosen.splice(i,1);renderZone();};
+      zone.appendChild(b);
+    });
+  }
+  document.getElementById("checkBtn").onclick=()=>{
+    if(chosen.length<words.length){fb.className="feedback bad";fb.textContent="עוד לא השתמשת בכל המילים 🙂";return;}
+    const built=chosen.map(c=>c.w).join(" ");
+    const ok=normalize(built)===normalize(q.s);
+    fb.className="feedback "+(ok?"good":"bad");
+    fb.textContent=ok?"מושלם! +12":"הסדר הנכון: "+q.s;
+    document.getElementById("checkBtn").disabled=true;
+    TTS.speak(q.s,0.9,false);
+    advance(ok,12);
+  };
+}
+
+/* ================= 8. TRUE / FALSE ================= */
+function rTF(stage,q){
+  stage.innerHTML=`<h2>נכון או לא נכון? ⚖️</h2>
+    <div class="sub">האם התרגום נכון?</div>
+    <div class="blank-sentence"><span class="en"><b>${esc(q.en)}</b></span> = ${esc(q.shown)}</div>
+    <button class="mini-btn" id="hearBtn">🔊 שמע את המילה</button>
+    <div class="options">
+      <button class="opt" id="yesBtn">✔ נכון</button>
+      <button class="opt" id="noBtn">✘ לא נכון</button>
+    </div>
+    <div class="feedback" id="fb"></div>`;
+  document.getElementById("hearBtn").onclick=()=>TTS.speak(q.en,1,true);
+  setTimeout(()=>TTS.speak(q.en,1,false),350);
+  const answer=say=>{
+    const ok=say===q.a;
+    document.getElementById("yesBtn").disabled=true;document.getElementById("noBtn").disabled=true;
+    document.getElementById(say?"yesBtn":"noBtn").classList.add(ok?"correct":"wrong");
+    if(!ok)document.getElementById(say?"noBtn":"yesBtn").classList.add("correct");
+    const fb=document.getElementById("fb");
+    fb.className="feedback "+(ok?"good":"bad");
+    fb.innerHTML=ok?"נכון! +10":("המשמעות של <span class='en'><b>"+esc(q.en)+"</b></span> היא <b>"+esc(q.real)+"</b>");
+    if(!ok)addMistake(q.en);else clearMistake(q.en);
+    advance(ok,10);
+  };
+  document.getElementById("yesBtn").onclick=()=>answer(true);
+  document.getElementById("noBtn").onclick=()=>answer(false);
+}
+
+/* ================= 9. FLASHCARDS ================= */
+function rFlash(stage,q){
+  stage.innerHTML=`<h2>כרטיסיות זיכרון 🃏</h2>
+    <div class="sub">לחץ על הכרטיס כדי לראות את התשובה, ואז דרג את עצמך בכנות</div>
+    <div class="flashcard en" id="fc">${esc(q.en)}</div>
+    <div style="display:flex;gap:8px">
+      <button class="mini-btn" id="hearBtn">🔊 שמע</button>
+      <button class="mini-btn" id="flipBtn">🔄 הפוך כרטיס</button>
+    </div>
+    <div id="gradeBtns" style="display:none;gap:12px">
+      <button class="btn teal" id="knewBtn">ידעתי ✔</button>
+      <button class="btn ghost" id="didntBtn">לא ידעתי ✘</button>
+    </div>
+    <div class="feedback" id="fb"></div>`;
+  const fc=document.getElementById("fc");
+  let flipped=false;
+  const flip=()=>{
+    flipped=!flipped;
+    fc.classList.toggle("flipped",flipped);
+    fc.textContent=flipped?q.he:q.en;
+    fc.classList.toggle("en",!flipped);
+    document.getElementById("gradeBtns").style.display=flipped?"flex":"none";
+  };
+  fc.onclick=flip;
+  document.getElementById("flipBtn").onclick=flip;
+  document.getElementById("hearBtn").onclick=()=>TTS.speak(q.en,1,true);
+  setTimeout(()=>TTS.speak(q.en,1,false),350);
+  let graded=false;
+  const grade=knew=>{
+    if(graded)return;graded=true;
+    if(knew){addPoints(5);session.points+=5;session.correct++;clearMistake(q.en);}
+    else addMistake(q.en);
+    addStats(session.type,knew);
+    session.answered++;saveState();
+    setTimeout(()=>{session.idx++;nextQuestion();},350);
+  };
+  document.getElementById("knewBtn").onclick=()=>grade(true);
+  document.getElementById("didntBtn").onclick=()=>grade(false);
+}
+
+/* ================= INIT ================= */
+TTS.init();
+refreshStats();
+renderCards();
+if(location.hash){const t=location.hash.slice(1);if(EX_META.some(m=>m.key===t))openExercise(t);}
+</script>
+</body>
+</html>
